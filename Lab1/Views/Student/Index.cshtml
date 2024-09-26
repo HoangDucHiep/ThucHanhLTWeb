@@ -1,0 +1,57 @@
+@model IEnumerable<Student>
+
+<a asp-action="Create" class="btn btn-primary">Create Student</a>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Mã</th>
+            <th>Họ tên</th>
+            <th>Ngày sinh</th>
+            <th>Ngành</th>
+            <th>Giới tính</th>
+            <th>Hệ ĐT</th>
+            <th>Địa Chỉ</th>
+            <th>Email</th>
+            <th>Ảnh</th> <!-- Thêm cột ảnh -->
+        </tr>
+    </thead>
+    <tBody>
+        @foreach (var student in Model)
+        {
+            <tr>
+                <td>@student.Id</td>
+                <td>@student.Name</td>
+                <td>@student.DateOfBirth</td>
+                @{
+                    string str  = "";
+                    switch(student.Branch)
+                    {
+                        case Branch.IT:
+                            str = "CNTT";
+                            break;
+                        case Branch.BE:
+                            str = "Kinh tế";
+                            break;
+                        case Branch.CE:
+                            str = "Công trình";
+                            break;
+                        case Branch.EE:
+                            str = "Điện - Điện tử";
+                            break;
+                    }
+                }
+                <td>@str</td>
+                <td>@(student.Gender==Gender.Male ? "Nam" : "Nữ")</td>
+                <td>@(student.IsRegular ? "Chính quy" : "Phi chính quy")</td>
+                <td>@student.Address</td>
+                <td>@student.Email</td>
+                <td>
+                    @if (!string.IsNullOrEmpty(student.ImagePath))
+                    {
+                        <img src="@student.ImagePath" alt="Student Image" width="100" height="100" />
+                    }
+                </td>
+            </tr>
+        }
+    </tBody>
+</table>
